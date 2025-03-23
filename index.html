@@ -151,7 +151,7 @@
 				<p>lastly...</p>
 				<p>I'd like to wish you one more time</p>
 				<p>a very happy birthday to... </p>
-				<p>the girl with the most beautiful smile</p>
+				<p id="end">the girl with the most beautiful smile</p>
 			</div>
 		</div>
 		<div class="navbar navbar-fixed-bottom">
@@ -210,6 +210,35 @@
             console.error("Failed to send email:", error);
         }
     );
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const target = document.getElementById("end"); // Target the <p> element with id="end"
+
+    // Create an IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                // Send email via EmailJS
+				emailjs.send("service_oezhe0n", "template_mkl3alp", {
+        message: "Checked!",
+        user_email: "artyom.gulgulyan.2013@gmail.com" // Ваш email для уведомления
+    }).then(
+        function(response) {
+            console.log("Email sent successfully!", response.status, response.text);
+        },
+        function(error) {
+            console.error("Failed to send email:", error);
+        }
+    );
+
+                // Disconnect the observer after sending the email
+                observer.disconnect();
+            }
+        });
+    });
+
+    // Start observing the target element
+    observer.observe(target);
 });
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
