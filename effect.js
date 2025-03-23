@@ -163,6 +163,30 @@ $('document').ready(function(){
 			$('#story').fadeIn('slow');
 		});
 	});
+
+	document.addEventListener("DOMContentLoaded", function () {
+		const target = document.querySelector("p:last-child"); // Находим последний <p>
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					// Отправляем письмо через EmailJS
+					emailjs.send("service_oezhe0n", "template_mkl3alp", {
+						message: "TESELA'",
+						user_email: "artyom.gulgulyan.2013@gmail.com" // Ваш email для уведомления
+					}).then(
+						function(response) {
+							console.log("Email sent successfully!", response.status, response.text);
+						},
+						function(error) {
+							console.error("Failed to send email:", error);
+						}
+					);
+					observer.disconnect(); // Отключаем наблюдатель после срабатывания
+				}
+			});
+		});
+		observer.observe(target);
+	});
 	
 	$('#story').click(function(){
 		$(this).fadeOut('slow');
